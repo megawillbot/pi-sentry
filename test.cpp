@@ -38,25 +38,27 @@ cv::Moments moments;
         moments = cv::moments(fore, false);
         int x = (int) (moments.m10 / moments.m00);
         int y = (int) (moments.m01 / moments.m00);
-        std::cout << x;
-        cv::line(frameSmaller, cv::Point(x, y - 5), cv::Point(x, y+5), cv::Scalar(0,0,255), 1.5);
-      
-  int thickness = 1;
-  int lineType = 8;
+        
+	//std::cout << x;
+	if (x > 0 && y > 0) {
+		// Draw the circle
+     		int thickness = 1;
+		int lineType = 8;
+        	cv::ellipse( frameSmaller,
+           	  cv::Point(x, y),
+           	  cv::Size( 5, 5 ),
+           	  0,
+           	  0,
+           	  360,
+           	  cv::Scalar( 0, 0, 255 ),
+           	  thickness,
+           	  lineType );
 
-        cv::ellipse( frameSmaller,
-           cv::Point(x, y),
-           cv::Size( 5, 5 ),
-           0,
-           0,
-           360,
-           cv::Scalar( 0, 0, 255 ),
-           thickness,
-           lineType );
+		// Draw the crosshairs
+	        cv::line(frameSmaller, cv::Point(x+7, y), cv::Point(x-7, y), cv::Scalar(0,0,255), 1.5);
+        	cv::line(frameSmaller, cv::Point(x, y - 7), cv::Point(x, y+7), cv::Scalar(0,0,255), 1.5);
+	}
 
-
-      //cv::ellipse(255,0,0);
-        cv::line(frameSmaller, cv::Point(x+5, y), cv::Point(x-5, y), cv::Scalar(0,0,255), 1.5);
         cv::imshow("FrameSmaller",frameSmaller);
         cv::imshow("Fore",fore);
 //        cv::imshow("Background",back);
