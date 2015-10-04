@@ -1,4 +1,4 @@
-
+#include<wiringPi.h>
 #include<opencv2/opencv.hpp>
 #include<iostream>
 #include<vector>
@@ -11,11 +11,13 @@ int main(int argc, char *argv[])
     cv::Mat back;
     cv::Mat fore;
     cv::VideoCapture cap(0);
-    cv::BackgroundSubtractorMOG2 bg(10, false);
+    cv::BackgroundSubtractorMOG2 bg(2, false);
     //bg.nmixtures = 3;
     //bg.bShadowDetection = false;
  
+
     std::vector<std::vector<cv::Point> > contours;
+cv::Moments moments;
  
     cv::namedWindow("FrameSmaller");
     cv::namedWindow("Fore");
@@ -24,13 +26,37 @@ int main(int argc, char *argv[])
     {
     std::cout << "inside for";
         cap >> frame;
-        cv:resize(frame, frameSmaller, cv::Size(), 0.4,0.4, cv::INTER_NEAREST);
+        cv:resize(frame, frameSmaller, cv::Size(), 0.1, 0.1, cv::INTER_NEAREST);
         bg.operator ()(frameSmaller,fore);
         bg.getBackgroundImage(back);
         cv::erode(fore,fore,cv::Mat());
         cv::dilate(fore,fore,cv::Mat());
         cv::findContours(fore,contours,CV_RETR_EXTERNAL,CV_CHAIN_APPROX_NONE);
-        cv::drawContours(frameSmaller,contours,-1,cv::Scalar(0,0,255),2);
+        cv::drawContours(frameSmaller,contours,-1,cv::Scalar(0,255,0),0.1);
+
+        // Try to find the "midpoint" of the foreground image - that's what we will shoot at
+        moments = cv::moments(fore, false);
+        int x = (int) (moments.m10 / moments.m00);
+        int y = (int) (moments.m01 / moments.m00);
+        std::cout << x;
+        cv::line(frameSmaller, cv::Point(x, y - 5), cv::Point(x, y+5), cv::Scalar(0,0,255), 1.5);
+      
+  int thickness = 1;
+  int lineType = 8;
+
+        cv::ellipse( frameSmaller,
+           cv::Point(x, y),
+           cv::Size( 5, 5 ),
+           0,
+           0,
+           360,
+           cv::Scalar( 0, 0, 255 ),
+           thickness,
+           lineType );
+
+
+      //cv::ellipse(255,0,0);
+        cv::line(frameSmaller, cv::Point(x+5, y), cv::Point(x-5, y), cv::Scalar(0,0,255), 1.5);
         cv::imshow("FrameSmaller",frameSmaller);
         cv::imshow("Fore",fore);
 //        cv::imshow("Background",back);

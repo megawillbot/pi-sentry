@@ -1,0 +1,1 @@
+/home/pi/will/pi-sentry/CMakeFiles/test.dir
