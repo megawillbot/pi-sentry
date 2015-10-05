@@ -1,22 +1,56 @@
 #include<opencv2/opencv.hpp>
+#include <stdlib.h>     //for using the function sleep
 #include<iostream>
 #include<vector>
 #include "./pca9685.h"
-#include <iostream>
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
 
-int main(int argc, char *argv[])
+// Constants for servo controls
+int pinBase =300;
+int i2cAddress =0x40;
+float freq=50;
+int panPin = pinBase + 1;
+int tiltPin = pinBase + 0;
 
+int degreesToPwmWidth(int degrees)
 {
-    // Setup servos
-    int pinBase =300;
-    int i2cAddress =0x40;
-    float freq=50;
+    int lowest = 150;
+    int highest = 530;
+    int range = highest - lowest;
+    std::cout << "degrees = " << degrees << std::endl;
+
+    float percentageThroughRange = (float)degrees / (float)180;
+    std::cout << "percentage through range is " << percentageThroughRange << std::endl;
+
+    int result = (lowest + percentageThroughRange * range);
+    std::cout << "pwmWidth of " << degrees << " is " << result << std::endl;
+    return result;
+}
+
+void panToDegrees(int degrees)
+{
+    int pwmWidth = degreesToPwmWidth(degrees);
+    pwmWrite(panPin, pwmWidth);
+}
+
+void tiltToDegrees(int degrees)
+{
+    int pwmWidth = degreesToPwmWidth(degrees);
+    pwmWrite(tiltPin, pwmWidth);
+}
+
+int main(int argc, char *argv[])
+{
+    // Setup servo controller
     pca9685Setup(pinBase, i2cAddress, freq);
 
+    // Move servos to initial position
+    panToDegrees(90);
+    tiltToDegrees(90);
+
     // Set up openCV
-    std::cout << "Hello";
+    std::cout << "Hello" << std::endl;
     cv::Mat frame;
     cv::Mat frameSmaller;
     cv::Mat back;
@@ -28,7 +62,7 @@ int main(int argc, char *argv[])
  
 
     std::vector<std::vector<cv::Point> > contours;
-cv::Moments moments;
+    cv::Moments moments;
  
     cv::namedWindow("FrameSmaller");
     cv::namedWindow("Fore");
@@ -72,8 +106,10 @@ cv::Moments moments;
 	        cv::line(frameSmaller, cv::Point(x+7, y), cv::Point(x-7, y), cv::Scalar(0,0,255), 1.5);
         	cv::line(frameSmaller, cv::Point(x, y - 7), cv::Point(x, y+7), cv::Scalar(0,0,255), 1.5);
 	}
-        //if (x > 32) {
-        //         int right = 1;
+        if (x > 32) {
+            //panToDegrees(45);
+            //sleep(1000);
+        }
         cv::imshow("FrameSmaller",frameSmaller);
         cv::imshow("Fore",fore);
 //        cv::imshow("Background",back);
