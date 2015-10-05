@@ -1,21 +1,10 @@
+#include<wiringPi.h>
 #include<opencv2/opencv.hpp>
 #include<iostream>
 #include<vector>
-#include "./pca9685.h"
-#include <iostream>
-#include <wiringPi.h>
-#include <wiringPiI2C.h>
-
+ 
 int main(int argc, char *argv[])
-
 {
-    // Setup servos
-    int pinBase =300;
-    int i2cAddress =0x40;
-    float freq=50;
-    pca9685Setup(pinBase, i2cAddress, freq);
-
-    // Set up openCV
     std::cout << "Hello";
     cv::Mat frame;
     cv::Mat frameSmaller;
@@ -39,7 +28,7 @@ cv::Moments moments;
         cap >> frame;
         cv:resize(frame, frameSmaller, cv::Size(), 0.1, 0.1, cv::INTER_NEAREST);
 	// Print out the width
-	int width = frameSmaller.size().width;
+	std::cout << frameSmaller.Size.Width;
 
         bg.operator ()(frameSmaller,fore);
         bg.getBackgroundImage(back);
@@ -72,8 +61,7 @@ cv::Moments moments;
 	        cv::line(frameSmaller, cv::Point(x+7, y), cv::Point(x-7, y), cv::Scalar(0,0,255), 1.5);
         	cv::line(frameSmaller, cv::Point(x, y - 7), cv::Point(x, y+7), cv::Scalar(0,0,255), 1.5);
 	}
-        //if (x > 32) {
-        //         int right = 1;
+
         cv::imshow("FrameSmaller",frameSmaller);
         cv::imshow("Fore",fore);
 //        cv::imshow("Background",back);

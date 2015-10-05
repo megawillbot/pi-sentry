@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(test)
 find_package(OpenCV REQUIRED)
-add_executable(test test.cpp)
+add_executable(test test.cpp pca9685.c)
 target_link_libraries(test ${OpenCV_LIBS})
+target_link_libraries(test wiringPi)

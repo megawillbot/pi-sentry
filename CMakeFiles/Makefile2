@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/pi/will/pi-sentry
 CMakeFiles/test.dir/all:
 	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/depend
 	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/pi/will/pi-sentry/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/pi/will/pi-sentry/CMakeFiles  1 2
 	@echo "Built target test"
 .PHONY : CMakeFiles/test.dir/all
 
@@ -69,7 +69,7 @@ all: CMakeFiles/test.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/will/pi-sentry/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/will/pi-sentry/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/will/pi-sentry/CMakeFiles 0
 .PHONY : CMakeFiles/test.dir/rule

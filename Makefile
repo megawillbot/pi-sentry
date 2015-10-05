@@ -111,6 +111,30 @@ test/fast:
 	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
 .PHONY : test/fast
 
+pca9685.o: pca9685.c.o
+.PHONY : pca9685.o
+
+# target to build an object file
+pca9685.c.o:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/pca9685.c.o
+.PHONY : pca9685.c.o
+
+pca9685.i: pca9685.c.i
+.PHONY : pca9685.i
+
+# target to preprocess a source file
+pca9685.c.i:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/pca9685.c.i
+.PHONY : pca9685.c.i
+
+pca9685.s: pca9685.c.s
+.PHONY : pca9685.s
+
+# target to generate assembly for a file
+pca9685.c.s:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/pca9685.c.s
+.PHONY : pca9685.c.s
+
 test.o: test.cpp.o
 .PHONY : test.o
 
@@ -144,6 +168,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... pca9685.o"
+	@echo "... pca9685.i"
+	@echo "... pca9685.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"

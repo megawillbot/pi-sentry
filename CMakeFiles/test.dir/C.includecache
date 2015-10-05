@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pi/will/pi-sentry/pca9685.c
+wiringPi.h
+-
+wiringPiI2C.h
+-
+pca9685.h
+/home/pi/will/pi-sentry/pca9685.h
+
+/home/pi/will/pi-sentry/pca9685.h
+
+/usr/local/include/wiringPi.h
+
+/usr/local/include/wiringPiI2C.h
+

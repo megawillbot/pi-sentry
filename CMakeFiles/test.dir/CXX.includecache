@@ -6,14 +6,22 @@
 
 #IncludeRegexTransform: 
 
+/home/pi/will/pi-sentry/./pca9685.h
+
 /home/pi/will/pi-sentry/test.cpp
-wiringPi.h
--
 opencv2/opencv.hpp
 -
 iostream
 -
 vector
+-
+./pca9685.h
+/home/pi/will/pi-sentry/./pca9685.h
+iostream
+-
+wiringPi.h
+-
+wiringPiI2C.h
 -
 
 /usr/local/include/opencv2/calib3d/calib3d.hpp
@@ -273,4 +281,6 @@ opencv2/video/background_segm.hpp
 /usr/local/include/opencv2/video/opencv2/video/background_segm.hpp
 
 /usr/local/include/wiringPi.h
+
+/usr/local/include/wiringPiI2C.h
 

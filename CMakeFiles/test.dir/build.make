@@ -72,14 +72,39 @@ CMakeFiles/test.dir/test.cpp.o.provides: CMakeFiles/test.dir/test.cpp.o.requires
 
 CMakeFiles/test.dir/test.cpp.o.provides.build: CMakeFiles/test.dir/test.cpp.o
 
+CMakeFiles/test.dir/pca9685.c.o: CMakeFiles/test.dir/flags.make
+CMakeFiles/test.dir/pca9685.c.o: pca9685.c
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/pi/will/pi-sentry/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/test.dir/pca9685.c.o"
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/test.dir/pca9685.c.o   -c /home/pi/will/pi-sentry/pca9685.c
+
+CMakeFiles/test.dir/pca9685.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/test.dir/pca9685.c.i"
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -E /home/pi/will/pi-sentry/pca9685.c > CMakeFiles/test.dir/pca9685.c.i
+
+CMakeFiles/test.dir/pca9685.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/test.dir/pca9685.c.s"
+	/usr/bin/gcc  $(C_DEFINES) $(C_FLAGS) -S /home/pi/will/pi-sentry/pca9685.c -o CMakeFiles/test.dir/pca9685.c.s
+
+CMakeFiles/test.dir/pca9685.c.o.requires:
+.PHONY : CMakeFiles/test.dir/pca9685.c.o.requires
+
+CMakeFiles/test.dir/pca9685.c.o.provides: CMakeFiles/test.dir/pca9685.c.o.requires
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/pca9685.c.o.provides.build
+.PHONY : CMakeFiles/test.dir/pca9685.c.o.provides
+
+CMakeFiles/test.dir/pca9685.c.o.provides.build: CMakeFiles/test.dir/pca9685.c.o
+
 # Object files for target test
 test_OBJECTS = \
-"CMakeFiles/test.dir/test.cpp.o"
+"CMakeFiles/test.dir/test.cpp.o" \
+"CMakeFiles/test.dir/pca9685.c.o"
 
 # External object files for target test
 test_EXTERNAL_OBJECTS =
 
 test: CMakeFiles/test.dir/test.cpp.o
+test: CMakeFiles/test.dir/pca9685.c.o
 test: CMakeFiles/test.dir/build.make
 test: /usr/local/lib/libopencv_videostab.so.2.4.10
 test: /usr/local/lib/libopencv_video.so.2.4.10
@@ -123,6 +148,7 @@ CMakeFiles/test.dir/build: test
 .PHONY : CMakeFiles/test.dir/build
 
 CMakeFiles/test.dir/requires: CMakeFiles/test.dir/test.cpp.o.requires
+CMakeFiles/test.dir/requires: CMakeFiles/test.dir/pca9685.c.o.requires
 .PHONY : CMakeFiles/test.dir/requires
 
 CMakeFiles/test.dir/clean:
