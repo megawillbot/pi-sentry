@@ -55,6 +55,22 @@ int calculatePanDegreeChange(int x)
     return panDegreeChange;
 }
 
+int calculateTiltDegreeChange(int y) 
+{
+    int fullUpPixels = 64;
+    int fullDownPixels = 0;
+
+    int fullUpDegrees = -45;
+    int fullDown Degrees = 45;
+
+    int degreeRange = fullRightDegrees - fullLeftDegrees;
+    int pixelRange = fullRightPixels - fullLeftPixels;
+
+    float percentageAlongPixelRange = (float)x / (float)pixelRange;
+    int panDegreeChange = fullLeftDegrees + (percentageAlongPixelRange * degreeRange);
+    return panDegreeChange;
+}
+
 int main(int argc, char *argv[])
 {
     // Setup servo controller
@@ -136,7 +152,13 @@ int main(int argc, char *argv[])
 		std::cout << "would pan by " << panDegreeChange << " degrees" << std::endl;
                 currentPan += panDegreeChange;
 	        panToDegrees(currentPan);
-
+                
+                // Calculate where to tilt to
+                int tiltDegreeChange = calculateTiltDegreeChange(y);
+                std::cout << " would tilt by " << tiltDegreeChange << " degrees" << std::endl;
+                currentTilt += tiltDegreeChange;
+                tiltToDegrees(currentTilt);
+        
 		// Remember the time we last moved
 		time_t  timeNow;
 		time(&lastMoveTime);
