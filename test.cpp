@@ -5,6 +5,7 @@
 #include "./pca9685.h"
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
+#include <ctime>
 
 // Constants for servo controls
 int pinBase =300;
@@ -18,13 +19,11 @@ int degreesToPwmWidth(int degrees)
     int lowest = 150;
     int highest = 530;
     int range = highest - lowest;
-    std::cout << "degrees = " << degrees << std::endl;
 
     float percentageThroughRange = (float)degrees / (float)180;
-    std::cout << "percentage through range is " << percentageThroughRange << std::endl;
 
     int result = (lowest + percentageThroughRange * range);
-    std::cout << "pwmWidth of " << degrees << " is " << result << std::endl;
+    // std::cout << "pwmWidth of " << degrees << " is " << result << std::endl;
     return result;
 }
 
@@ -40,14 +39,34 @@ void tiltToDegrees(int degrees)
     pwmWrite(tiltPin, pwmWidth);
 }
 
+int calculatePanDegreeChange(int x) 
+{
+    int fullRightPixels = 64;
+    int fullLeftPixels = 0;
+
+    int fullRightDegrees = -45;
+    int fullLeftDegrees = 45;
+
+    int degreeRange = fullRightDegrees - fullLeftDegrees;
+    int pixelRange = fullRightPixels - fullLeftPixels;
+
+    float percentageAlongPixelRange = (float)x / (float)pixelRange;
+    int panDegreeChange = fullLeftDegrees + (percentageAlongPixelRange * degreeRange);
+    return panDegreeChange;
+}
+
 int main(int argc, char *argv[])
 {
     // Setup servo controller
     pca9685Setup(pinBase, i2cAddress, freq);
 
     // Move servos to initial position
-    panToDegrees(90);
-    tiltToDegrees(90);
+    int currentPan = 90;
+    int currentTilt = 90;
+    panToDegrees(currentPan);
+    tiltToDegrees(currentTilt);
+    time_t lastMoveTime;
+    time(&lastMoveTime);
 
     // Set up openCV
     std::cout << "Hello" << std::endl;
@@ -106,13 +125,26 @@ int main(int argc, char *argv[])
 	        cv::line(frameSmaller, cv::Point(x+7, y), cv::Point(x-7, y), cv::Scalar(0,0,255), 1.5);
         	cv::line(frameSmaller, cv::Point(x, y - 7), cv::Point(x, y+7), cv::Scalar(0,0,255), 1.5);
 	}
-        if (x > 32) {
-            //panToDegrees(45);
-            //sleep(1000);
-        }
+        
+        // See if it's time to move yet
+        time_t  timeNow;
+	time(&timeNow);
+        if ((timeNow - lastMoveTime >= 2) && (x > 0))
+	{
+        	// Calculate where to pan to
+	        int panDegreeChange = calculatePanDegreeChange(x);
+		std::cout << "would pan by " << panDegreeChange << " degrees" << std::endl;
+                currentPan += panDegreeChange;
+	        panToDegrees(currentPan);
+
+		// Remember the time we last moved
+		time_t  timeNow;
+		time(&lastMoveTime);
+		std::cout << "time now is " << timeNow << std::endl;
+	}
+
         cv::imshow("FrameSmaller",frameSmaller);
         cv::imshow("Fore",fore);
-//        cv::imshow("Background",back);
         if(cv::waitKey(30) >= 0) break;
     }
     return 0;
